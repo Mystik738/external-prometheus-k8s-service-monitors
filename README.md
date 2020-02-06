@@ -1,5 +1,5 @@
-# external-prometheus-k8s-config
-Additional configuration for https://github.com/sbelectronics/octoprint-prometheus or any other scrapable prometheus endpoint if your k8s environment is deployed with the stock manifests from https://github.com/carlosedp/cluster-monitoring
+# external-prometheus-k8s-service-monitors
+Additional configuration for https://github.com/sbelectronics/octoprint-prometheus or any other scrapable prometheus endpoint to be monitored by a k8s cluster deployed with the stock manifests from https://github.com/carlosedp/cluster-monitoring
 
 ## Use
 
