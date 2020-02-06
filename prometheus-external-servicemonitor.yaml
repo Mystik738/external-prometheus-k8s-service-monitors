@@ -1,0 +1,54 @@
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: external-metrics
+  namespace: monitoring
+  labels:
+    k8s-app: external-metrics
+subsets:
+- addresses:
+  - ip: 192.168.1.139
+  - ip: 192.168.1.108
+  - ip: 192.168.1.145
+  ports:
+  - name: metrics
+    port: 8000
+    protocol: TCP
+- addresses:
+  - ip: 192.168.1.145
+  ports:
+  - name: metrics
+    port: 8001
+    protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: external-metrics
+  namespace: monitoring
+  labels:
+    k8s-app: external-metrics
+spec:
+  type: ExternalName
+  externalName: external-metrics
+  clusterIP: ""
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: external-metrics-sm
+  namespace: monitoring
+  labels:
+    k8s-app: external-metrics
+spec:
+  selector:
+    matchLabels:
+      k8s-app: external-metrics
+    namespaceSelector:
+      matchNames:
+      - monitoring
+  endpoints:
+  - port: metrics 
+    interval: 10s   
+    honorLabels: true
